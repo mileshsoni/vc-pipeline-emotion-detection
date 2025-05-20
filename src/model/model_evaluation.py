@@ -39,7 +39,7 @@ def load_model(path:str) -> ClassifierMixin:
     
 def load_test_data (path: str) -> pd.DataFrame:
     try:
-        test_data = pd.read_csv(os.path.join(path,'test_bow.csv'))
+        test_data = pd.read_csv(os.path.join(path,'test_tfidf.csv'))
         logger.debug('test data loaded successfully')
         return test_data
     except FileNotFoundError as e:

@@ -39,7 +39,7 @@ def load_params (params_path : str) -> tuple[int, int]:
 
 def fetch_data(data_path: str) -> pd.DataFrame: 
     try:
-        train_data = pd.read_csv(os.path.join(data_path, 'train_bow.csv'))
+        train_data = pd.read_csv(os.path.join(data_path, 'train_tfidf.csv'))
         logger.debug('Data fetched successfully')
         return train_data
     except FileNotFoundError as e:

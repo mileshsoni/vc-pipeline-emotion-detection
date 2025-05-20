@@ -4,7 +4,7 @@ import yaml
 import os
 import logging
 
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 logger = logging.getLogger('feature_engineering')
 logger.setLevel('DEBUG')
 
@@ -62,20 +62,20 @@ def split_data_train_test (train_data: pd.DataFrame, test_data: pd.DataFrame) ->
         raise
 
 def feature_transformation ( max_features:int, X_train: pd.DataFrame, y_train: pd.DataFrame, X_test: pd.DataFrame, y_test:pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame] :
-    vectorizer = CountVectorizer(max_features=max_features)
-    X_train_bow = vectorizer.fit_transform(X_train)
-    X_test_bow = vectorizer.transform(X_test)
-    train_df = pd.DataFrame(X_train_bow.toarray())
+    vectorizer = TfidfVectorizer(max_features=max_features)
+    X_train_Tfidf = vectorizer.fit_transform(X_train)
+    X_test_Tfidf = vectorizer.transform(X_test)
+    train_df = pd.DataFrame(X_train_Tfidf.toarray())
     train_df['label'] = y_train
-    test_df = pd.DataFrame(X_test_bow.toarray())
+    test_df = pd.DataFrame(X_test_Tfidf.toarray())
     test_df['label'] = y_test
     return train_df, test_df
 
 def save_data (data_path: str, train_df:pd.DataFrame, test_df: pd.DataFrame) -> None:
     try:
         os.makedirs(data_path)
-        train_df.to_csv(os.path.join(data_path, "train_bow.csv"))
-        test_df.to_csv(os.path.join(data_path, "test_bow.csv"))
+        train_df.to_csv(os.path.join(data_path, "train_tfidf.csv"))
+        test_df.to_csv(os.path.join(data_path, "test_tfidf.csv"))
     except Exception as e:
         logger.exception('Unexpected error : {}'.format(e))
         raise
